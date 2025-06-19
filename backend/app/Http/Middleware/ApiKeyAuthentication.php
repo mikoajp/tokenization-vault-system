@@ -27,11 +27,9 @@ class ApiKeyAuthentication
             return $this->unauthorizedResponse('API key is inactive or expired');
         }
 
-        // Store API key info in request for later use
         $request->attributes->set('api_key', $keyRecord);
         $request->headers->set('X-API-Key-ID', $keyRecord->id);
 
-        // Record API key usage
         $keyRecord->recordUsage();
 
         return $next($request);
@@ -39,13 +37,11 @@ class ApiKeyAuthentication
 
     private function extractApiKey(Request $request): ?string
     {
-        // Try Authorization header first
         $authHeader = $request->header('Authorization');
         if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
             return substr($authHeader, 7);
         }
 
-        // Try X-API-Key header
         return $request->header('X-API-Key');
     }
 

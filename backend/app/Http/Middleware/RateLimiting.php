@@ -36,10 +36,8 @@ class RateLimiting
             ], Response::HTTP_TOO_MANY_REQUESTS);
         }
 
-        // Increment counter
         Cache::put($key, $current + 1, $window);
 
-        // Add rate limit headers
         $response = $next($request);
 
         $response->headers->set('X-RateLimit-Limit', $limit);

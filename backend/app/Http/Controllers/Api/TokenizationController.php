@@ -7,7 +7,6 @@ use App\Http\Requests\TokenizeRequest;
 use App\Http\Requests\DetokenizeRequest;
 use App\Http\Requests\BulkTokenizeRequest;
 use App\Http\Requests\SearchTokensRequest;
-use App\Http\Resources\TokenResource;
 use App\Services\TokenizationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;

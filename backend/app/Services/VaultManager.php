@@ -5,8 +5,6 @@ namespace App\Services;
 use App\Models\Vault;
 use App\Models\VaultKey;
 use App\Models\DataRetentionPolicy;
-use App\Services\EncryptionService;
-use App\Services\AuditService;
 use App\Exceptions\VaultException;
 use Illuminate\Support\Facades\DB;
 

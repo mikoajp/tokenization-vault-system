@@ -27,7 +27,6 @@ Route::get('/health', function () {
 
 Route::get('/health/status', function () {
     try {
-        // Test database
         \Illuminate\Support\Facades\DB::connection()->getPdo();
         $dbStatus = 'healthy';
     } catch (\Exception $e) {

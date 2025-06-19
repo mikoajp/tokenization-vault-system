@@ -16,19 +16,16 @@ class VaultAccessControl
             return $this->accessDeniedResponse('API key authentication required');
         }
 
-        // Check IP whitelist
         if (!$apiKey->isIpAllowed($request->ip())) {
             return $this->accessDeniedResponse('IP address not allowed');
         }
 
-        // Get vault ID from request
         $vaultId = $this->extractVaultId($request);
 
         if ($vaultId && !$apiKey->hasVaultPermission($vaultId)) {
             return $this->accessDeniedResponse('Access denied to this vault');
         }
 
-        // Check operation permission
         $operation = $this->determineOperation($request);
 
         if ($operation && !$apiKey->hasOperationPermission($operation)) {
@@ -40,12 +37,10 @@ class VaultAccessControl
 
     private function extractVaultId(Request $request): ?string
     {
-        // From route parameter
         if ($request->route('vault')) {
             return $request->route('vault');
         }
 
-        // From request body
         return $request->input('vault_id');
     }
 
