@@ -2,5 +2,5 @@
 
 return [
     App\Providers\AppServiceProvider::class,
-    App\Providers\VaultServiceProvider::class,
+    App\Infrastructure\Providers\DomainServiceProvider::class,
 ];

@@ -29,15 +29,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (\App\Exceptions\TokenizationException $e, $request) {
+        $exceptions->render(function (\App\Domain\Tokenization\Exceptions\TokenizationException $e, $request) {
             return $e->render($request);
         });
 
-        $exceptions->render(function (\App\Exceptions\VaultException $e, $request) {
+        $exceptions->render(function (\App\Domain\Vault\Exceptions\VaultException $e, $request) {
             return $e->render($request);
         });
 
-        $exceptions->render(function (\App\Exceptions\EncryptionException $e, $request) {
+        $exceptions->render(function (\App\Shared\Exceptions\EncryptionException $e, $request) {
             return $e->render($request);
         });
     })

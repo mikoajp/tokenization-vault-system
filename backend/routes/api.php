@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\TokenizationController;
-use App\Http\Controllers\Api\VaultController;
-use App\Http\Controllers\Api\AuditController;
-use App\Http\Controllers\Api\ComplianceReportController;
-use App\Http\Controllers\Api\SecurityAlertController;
+use App\Infrastructure\Http\Controllers\TokenizationController;
+use App\Infrastructure\Http\Controllers\VaultController;
+use App\Infrastructure\Http\Controllers\AuditController;
+use App\Infrastructure\Http\Controllers\ComplianceReportController;
+use App\Infrastructure\Http\Controllers\SecurityAlertController;
+use App\Infrastructure\Http\Controllers\HealthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,43 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public health endpoints (no authentication required)
-Route::get('/health', function () {
-    return response()->json([
-        'status' => 'healthy',
-        'timestamp' => now()->toISOString(),
-        'version' => '1.0.0',
-        'environment' => config('app.env'),
-        'checks' => [
-            'database' => 'healthy',
-            'cache' => 'healthy',
-            'queue' => 'healthy',
-            'rabbitmq' => 'healthy'
-        ]
-    ]);
-})->name('api.health');
-
-Route::get('/health/status', function () {
-    try {
-        \Illuminate\Support\Facades\DB::connection()->getPdo();
-        $dbStatus = 'healthy';
-    } catch (\Exception $e) {
-        $dbStatus = 'unhealthy';
-    }
-
-    try {
-        \Illuminate\Support\Facades\Queue::size();
-        $queueStatus = 'healthy';
-    } catch (\Exception $e) {
-        $queueStatus = 'unhealthy';
-    }
-
-    return response()->json([
-        'status' => 'operational',
-        'database' => $dbStatus,
-        'queue' => $queueStatus,
-        'timestamp' => now()->toISOString(),
-    ]);
-})->name('api.health.status');
+Route::get('/health', [HealthController::class, 'index'])->name('api.health');
+Route::get('/health/detailed', [HealthController::class, 'detailed'])->name('api.health.detailed');
 
 // API Documentation
 Route::get('/documentation', function () {
